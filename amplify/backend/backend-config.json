@@ -1,0 +1,10 @@
+{
+  "auth": {
+    "ktcapp125f64a2": {
+      "service": "Cognito",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [],
+      "customAuth": false
+    }
+  }
+}
