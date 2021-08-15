@@ -10,10 +10,19 @@ interface Props {
 const TableCell : FC<Props> = (props) => {
     return (
         <View style={styles.tableContainer}>
-            <Text style={styles.title}> {props.cell_data.cellID} </Text>
-            <Text style={styles.title}> {props.cell_data.name} </Text>
-            <Text style={styles.title}> {props.cell_data.time} </Text>
-            <Text style={styles.title}> {props.cell_data.data} </Text>
+            <View style={styles.metaContainer}>
+                <View style={styles.metaTitle}>
+                    <Text style={styles.metaTitleText}> {props.cell_data.name} </Text>
+                    {/* <Text style={styles.metaTitleText}> {props.cell_data.cellID} </Text> */}
+                </View>
+                <View style={styles.metaTime}>
+                    <Text style={styles.metaTimeText}> {props.cell_data.time} </Text>
+                </View>
+            </View>
+            <View style={styles.cellContent}>
+                <Text style={styles.contentText}> {props.cell_data.data} </Text>
+
+            </View>
 
         </View>
     )
@@ -23,23 +32,56 @@ export default TableCell;
 
 const styles = StyleSheet.create({
     tableContainer: {
-        width: width*0.8,
+        width: width*0.9,
         height: 200,
-        justifyContent: 'center',
+        // justifyContent: 'center',
         alignSelf: 'center',
         flexDirection: 'column',
-        backgroundColor: 'red',
-        borderRadius: 7,
-        marginVertical: 15,
-        // shadowColor: '#000',
-        // shadowOffset: { width: 1, height: 4},
-        // shadowOpacity: 0.5,
-        // shadowRadius: 1,
-        // elevation: 4,
+        backgroundColor: '#B0EACD',
+        borderRadius: 10,
+        marginVertical: 10,
+        overflow: 'hidden',
+        //IOS
+        shadowColor: '#000',
+        shadowOffset: { width: 1, height: 4},
+        shadowOpacity: 0.5,
+        shadowRadius: 1,
+
+        //ANDROID
+        elevation: 5,
     },
-    title: {
+    metaContainer: {
+        width: '100%',
+        height: 50,
+        backgroundColor: '#EFFCEF',
+        flexDirection: 'row',
+        borderBottomWidth: 1,
+    },
+    metaTitle: {
+        width: '80%',
+        flexDirection: 'row',
+    },
+    metaTitleText: {
         fontSize: 20,
         alignSelf: 'center',
-        color: '#eee'
+        color: '#555'
+    },
+    metaTime: {
+        width: '20%',
+        fontSize: 15,
+        alignSelf: 'center',
+    },
+    metaTimeText: {
+        fontSize: 18,
+        alignSelf: 'center',
+        color: '#555'
+    },
+    cellContent: {
+
+    },
+    contentText: {
+        fontSize: 20,
+        padding: 10,
+        color: '#555'
     }
 })

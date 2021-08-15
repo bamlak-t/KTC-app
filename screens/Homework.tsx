@@ -10,7 +10,7 @@ const cell = {
 const timetable = [
   {
     cellID: 1,
-    name: "monday",
+    name: "homework",
     time: "6:00",
     data: "A"
   },
@@ -55,7 +55,7 @@ const timetable = [
 const App = () => {
   return (
     <SafeAreaView>
-      {/* <Table table_data={timetable} /> */}
+      <Table table_data={timetable} />
     </SafeAreaView>
   );
 };

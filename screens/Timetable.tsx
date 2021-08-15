@@ -10,7 +10,7 @@ const cell = {
 const timetable = [
   {
     cellID: 1,
-    name: "monday",
+    name: "Kalkidan1",
     time: "6:00",
     data: "A"
   },
@@ -63,7 +63,7 @@ const App = () => {
 const styles = StyleSheet.create({
   scrollCointainer: {
     height: '100%',
-    backgroundColor: '#EEEEEE'
+    backgroundColor: '#F9FCFB'
   },
   sectionContainer: {
     marginTop: 32,
