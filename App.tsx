@@ -1,37 +1,19 @@
 import React from 'react';
-import {SafeAreaView, ScrollView, StyleSheet, Text, View, Image} from 'react-native';
-import {withAuthenticator} from 'aws-amplify-react-native';
-
+import { StyleSheet, Image } from 'react-native';
+import { withAuthenticator } from 'aws-amplify-react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-
 import { NavigationContainer } from '@react-navigation/native';
 
-import Amplify, { API, Auth, graphqlOperation } from 'aws-amplify';
+import Amplify, { Auth } from 'aws-amplify';
 import awsconfig from './src/aws-exports';
 Amplify.configure(awsconfig);
 
-import { Notice, Timetable, Homework } from './screens';
-import { listNotices  } from './src/graphql/queries';
+import { Notice, Timetable, Homework, Profile } from './screens';
 import { useEffect } from 'react';
 
 const Tab = createBottomTabNavigator( );
 
 const App = () => {
-
-	// useEffect(() => {
-	// 	timetable();
-	// }, []);
-
-	// const timetable = async() => {
-	// 	try {
-	// 		const notices = await API.graphql(graphqlOperation(listNotices));
-	// 		const notiiceList = notices.data.listNotices.items;
-	// 		// console.log(notices);
-	// 		console.log(notiiceList);
-	// 	} catch(e) {
-	// 		console.log("error",e);
-	// 	}
-	// }
 
 	return (    
 		<NavigationContainer>
@@ -83,6 +65,19 @@ const App = () => {
 							<Image
 								style={styles.tinyLogo}
 								source={require('./assets/images/homework.png')}
+							/>
+						),
+					})
+				}/>
+				<Tab.Screen name="Profile" component={Profile} options={ 
+					({ route }) => ({ 
+						tabBarShowLabel: false,
+						headerStyle: styles.headerStyle,
+						headerTitleStyle: styles.headerTitleStyle,
+						tabBarIcon: ({ color, size }) => (
+							<Image
+								style={styles.tinyLogo}
+								source={require('./assets/images/profile.png')}
 							/>
 						),
 					})

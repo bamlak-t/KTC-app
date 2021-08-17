@@ -64,7 +64,8 @@ const styles = StyleSheet.create({
     metaTitleText: {
         fontSize: 20,
         alignSelf: 'center',
-        color: '#555'
+        color: '#555',
+        paddingLeft: 10,
     },
     metaTime: {
         width: '20%',

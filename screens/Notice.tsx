@@ -1,92 +1,60 @@
 import React from 'react'
-import {SafeAreaView, ScrollView, StyleSheet, Text, View} from 'react-native';
+import {SafeAreaView, StyleSheet, } from 'react-native';
 
 import { Table } from '../components';
-const cell = {
-  name: "",
-  time: "6:00",
-  data: "A"
-}
-// const timetable = [
-//   {
-//     cellID: 1,
-//     name: "notic",
-//     time: "6:00",
-//     data: "A"
-//   },
-//   {
-//     cellID: 2,
-//     name: "tuesday",
-//     time: "7:00",
-//     data: "B"
-//   },
-//   {
-//     cellID: 3,
-//     name: "wednesday",
-//     time: "8:00",
-//     data: "C"
-//   },
-//   {
-//     cellID: 4,
-//     name: "thursday",
-//     time: "9:00",
-//     data: "D"
-//   },
-//   {
-//     cellID: 5,
-//     name: "friday",
-//     time: "10:00",
-//     data: "E"
-//   },
-//   {
-//     cellID: 6,
-//     name: "saturday",
-//     time: "11:00",
-//     data: "F"
-//   },
-//   {
-//     cellID: 7,
-//     name: "sunday",
-//     time: "12:00",
-//     data: "G"
-//   },
-//   {
-//     cellID: 8,
-//     name: "saturday",
-//     time: "11:00",
-//     data: "F"
-//   },
-//   {
-//     cellID: 9,
-//     name: "sunday",
-//     time: "12:00",
-//     data: "G"
-//   }
-// ]
+
 import { API, graphqlOperation } from 'aws-amplify';
 import { listNotices } from '../src/graphql/queries';
 import { useEffect, useState } from 'react';
 import { TimeTableData } from '../types';
+import { createNotice } from '../src/graphql/mutations';
+import { ListNoticesQuery } from '../src/API';
 
 const App = () => {
 
   const [tabledata, setTableData] = useState<TimeTableData>([]);
 
-	// useEffect(() => {
-	// 	timetable();
-	// }, []);
+	useEffect(() => {
+		timetable();
+	}, []);
 
-	// const timetable = async() => {
-	// 	try {
-	// 		const notices = await API.graphql(graphqlOperation(listNotices));
-	// 		const notiiceList = notices.data.listNotices.items;
-	// 		// console.log(notices);
-	// 		console.log(notiiceList);
-  //     // setTableData(notiiceList);
-	// 	} catch(e) {
-	// 		console.log("error",e);
-	// 	}
-	// }
+	const timetable = async() => {
+		try {
+      const response:any = (await API.graphql(graphqlOperation(listNotices, {
+        filter: {
+          year_group: {
+                eq: 5
+            }
+        }
+      }))) as {
+        data: ListNoticesQuery;
+      };
+
+      const notiiceList = response.data.listNotices.items[0]; 
+      const narr = notiiceList.notices;
+      // console.log("narr",narr);
+      // console.log(notiiceList);
+      setTableData(narr);
+
+      // if (response.data.listNotices != undefined) {
+      //   if (response.data.listNotices.items != undefined) {
+      //     if (response.data.listNotices.items.length > 0) {
+      //       const notiiceList = response.data.listNotices.items[0]; 
+      //       if (notiiceList) {
+      //         const narr = notiiceList.notices;
+      //         console.log("narr",narr);
+      //         console.log(notiiceList);
+      //         setTableData(narr);
+      //       }
+      //     }
+      //   }
+      // }
+
+		} catch(e) {
+			console.log("error fetching data: ",e);
+		}
+
+	}
 
   return (
     <SafeAreaView>

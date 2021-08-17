@@ -10,13 +10,13 @@ interface Props {
 }
 
 const Table : FC<Props> = (props) => {
-    console.log(props.table_data);
+    // console.log("insidetable: ", props.table_data);
 
     return (
         <SafeAreaView  style={styles.tableContainer}>
             <ScrollView >
                 { props.table_data.map((cell : TableCellData ) => (
-                    <TableCell key="{cell.cellID}" cell_data={cell} />
+                    <TableCell key={cell.cellID} cell_data={cell} />
                 ))}
             </ScrollView>
 

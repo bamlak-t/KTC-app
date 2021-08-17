@@ -1,61 +1,64 @@
 import React from 'react'
-import {SafeAreaView, ScrollView, StyleSheet, Text, View} from 'react-native';
+import {SafeAreaView, StyleSheet, } from 'react-native';
 
 import { Table } from '../components';
-const cell = {
-  name: "",
-  time: "6:00",
-  data: "A"
-}
-const timetable = [
-  {
-    cellID: 1,
-    name: "Kalkidan1",
-    time: "6:00",
-    data: "A"
-  },
-  {
-    cellID: 2,
-    name: "tuesday",
-    time: "7:00",
-    data: "B"
-  },
-  {
-    cellID: 3,
-    name: "wednesday",
-    time: "8:00",
-    data: "C"
-  },
-  {
-    cellID: 4,
-    name: "thursday",
-    time: "9:00",
-    data: "D"
-  },
-  {
-    cellID: 5,
-    name: "friday",
-    time: "10:00",
-    data: "E"
-  },
-  {
-    cellID: 6,
-    name: "saturday",
-    time: "11:00",
-    data: "F"
-  },
-  {
-    cellID: 7,
-    name: "sunday",
-    time: "12:00",
-    data: "G"
-  }
-]
+
+import { API, graphqlOperation } from 'aws-amplify';
+import { listTimetables } from '../src/graphql/queries';
+import { useEffect, useState } from 'react';
+import { TimeTableData } from '../types';
+import { createNotice } from '../src/graphql/mutations';
+import { ListTimetablesQuery } from '../src/API';
 
 const App = () => {
+
+  const [tabledata, setTableData] = useState<TimeTableData>([]);
+
+	useEffect(() => {
+		timetable();
+	}, []);
+
+	const timetable = async() => {
+		try {
+      const response:any = (await API.graphql(graphqlOperation(listTimetables, {
+        filter: {
+          year_group: {
+                eq: 5
+            }
+        }
+      }))) as {
+        data: ListTimetablesQuery;
+      };
+
+      const timetableList = response.data.listTimetables.items[0]; 
+      const tarr = timetableList.timetables;
+      // console.log("narr",narr);
+      // console.log(notiiceList);
+      setTableData(tarr);
+
+      // if (response.data.listNotices != undefined) {
+      //   if (response.data.listNotices.items != undefined) {
+      //     if (response.data.listNotices.items.length > 0) {
+      //       const notiiceList = response.data.listNotices.items[0]; 
+      //       if (notiiceList) {
+      //         const narr = notiiceList.notices;
+      //         console.log("narr",narr);
+      //         console.log(notiiceList);
+      //         setTableData(narr);
+      //       }
+      //     }
+      //   }
+      // }
+
+		} catch(e) {
+			console.log("error fetching data: ",e);
+		}
+
+	}
+
   return (
     <SafeAreaView>
-      <Table table_data={timetable} />
+      <Table table_data={tabledata} />
     </SafeAreaView>
   );
 };
@@ -63,7 +66,7 @@ const App = () => {
 const styles = StyleSheet.create({
   scrollCointainer: {
     height: '100%',
-    backgroundColor: '#F9FCFB'
+    backgroundColor: '#EEEEEE'
   },
   sectionContainer: {
     marginTop: 32,
