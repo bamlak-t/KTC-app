@@ -23,7 +23,7 @@ const App = () => {
       const response:any = (await API.graphql(graphqlOperation(listNotices, {
         filter: {
           year_group: {
-                eq: 5
+                eq: 1
             }
         }
       }))) as {

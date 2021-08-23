@@ -4,7 +4,7 @@ import {SafeAreaView, StyleSheet, } from 'react-native';
 import { Table } from '../components';
 
 import { API, graphqlOperation } from 'aws-amplify';
-import { listTimetables } from '../src/graphql/queries';
+import { listHomework } from '../src/graphql/queries';
 import { useEffect, useState } from 'react';
 import { TimeTableData } from '../types';
 import { ListHomeworkQuery } from '../src/API';
@@ -19,7 +19,7 @@ const App = () => {
 
 	const timetable = async() => {
 		try {
-      const response:any = (await API.graphql(graphqlOperation(listTimetables, {
+      const response:any = (await API.graphql(graphqlOperation(listHomework, {
         filter: {
           year_group: {
                 eq: 5
@@ -29,7 +29,7 @@ const App = () => {
         data: ListHomeworkQuery;
       };
 
-      const homeworkList = response.data.listTimetables.items[0]; 
+      const homeworkList = response.data.listHomework.items[0]; 
       const harr = homeworkList.homework;
       // console.log("narr",narr);
       // console.log(notiiceList);

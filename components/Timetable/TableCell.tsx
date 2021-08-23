@@ -15,11 +15,13 @@ const TableCell : FC<Props> = (props) => {
                     <Text style={styles.metaTitleText}> {props.cell_data.name} </Text>
                     {/* <Text style={styles.metaTitleText}> {props.cell_data.cellID} </Text> */}
                 </View>
-                <View style={styles.metaTime}>
+                {/* <View style={styles.metaTime}>
                     <Text style={styles.metaTimeText}> {props.cell_data.time} </Text>
-                </View>
+                </View> */}
             </View>
             <View style={styles.cellContent}>
+                <Text style={styles.metaTimeText}> {props.cell_data.time} </Text>
+                {/* <br /> */}
                 <Text style={styles.contentText}> {props.cell_data.data} </Text>
 
             </View>
@@ -58,23 +60,24 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
     },
     metaTitle: {
-        width: '80%',
+        width: '60%',
         flexDirection: 'row',
     },
     metaTitleText: {
         fontSize: 20,
         alignSelf: 'center',
         color: '#555',
-        paddingLeft: 10,
+        paddingLeft: 5,
     },
     metaTime: {
-        width: '20%',
+        width: '40%',
         fontSize: 15,
         alignSelf: 'center',
     },
     metaTimeText: {
-        fontSize: 18,
-        alignSelf: 'center',
+        fontSize: 15,
+        alignSelf: 'stretch',
+        padding: 5,
         color: '#555'
     },
     cellContent: {
@@ -82,7 +85,7 @@ const styles = StyleSheet.create({
     },
     contentText: {
         fontSize: 20,
-        padding: 10,
+        padding: 5,
         color: '#555'
     }
 })

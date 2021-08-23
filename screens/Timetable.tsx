@@ -31,7 +31,7 @@ const App = () => {
       };
 
       const timetableList = response.data.listTimetables.items[0]; 
-      const tarr = timetableList.timetables;
+      const tarr = timetableList.tables;
       // console.log("narr",narr);
       // console.log(notiiceList);
       setTableData(tarr);

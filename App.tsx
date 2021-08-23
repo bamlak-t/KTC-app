@@ -10,6 +10,15 @@ Amplify.configure(awsconfig);
 
 import { Notice, Timetable, Homework, Profile } from './screens';
 import { useEffect } from 'react';
+import { I18n } from 'aws-amplify';
+
+I18n.setLanguage('en');
+const dict = {
+     'en': {
+         'Username': 'Email'
+      }
+}
+I18n.putVocabularies(dict);
 
 const Tab = createBottomTabNavigator( );
 
@@ -103,5 +112,11 @@ const styles = StyleSheet.create({
 	}
 });
 
-export default withAuthenticator(App);
+export default withAuthenticator(App, {
+	signUpConfig: {
+	  hiddenDefaults: ['phone_number', 'email'],
+	  usernameAlias: 'Email',
+	  title: 'Test'
+	}
+  });
 // export default App;
