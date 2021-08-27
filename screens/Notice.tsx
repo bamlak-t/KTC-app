@@ -29,7 +29,7 @@ const App = () => {
       }))) as {
         data: ListNoticesQuery;
       };
-
+      console.log(response)
       const notiiceList = response.data.listNotices.items[0]; 
       const narr = notiiceList.notices;
       // console.log("narr",narr);

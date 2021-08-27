@@ -30,7 +30,7 @@ const App = () => {
   const updateUser = async () => {
     const user = await Auth.currentAuthenticatedUser();
     await Auth.updateUserAttributes(user, {
-      'year': '5'
+      'custom:year': '10'
     })
     .catch((err) => console.log("error updating user", err));
   }

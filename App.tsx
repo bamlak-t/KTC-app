@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { StyleSheet, Image } from 'react-native';
+import { StyleSheet, Image, Text, View } from 'react-native';
 // import { withAuthenticator } from 'aws-amplify-react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
@@ -32,7 +32,7 @@ const signUpConfig = {
 	signUpFields: [
 		{
 		label: 'Year Group',
-		key: 'year',
+		key: 'custom:year',
 		required: true,
 		displayOrder: 3,
 		type: 'number',
@@ -45,7 +45,6 @@ const App = () => {
 
 
 	return (
-		<SafeAreaView>
 			<NavigationContainer>
 					<Tab.Navigator 
 						initialRouteName="Notice"
@@ -114,7 +113,6 @@ const App = () => {
 						}/>
 					</Tab.Navigator>
 				</NavigationContainer>
-		</SafeAreaView>
 	);
 }
 
