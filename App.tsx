@@ -25,6 +25,22 @@ I18n.putVocabularies(dict);
 const Tab = createBottomTabNavigator();
 
 
+const signUpConfig = {
+	header: 'Create a KTC account',
+	hiddenDefaults: ['phone_number', 'email'],
+	defaultCountryCode: '1',
+	signUpFields: [
+		{
+		label: 'Year Group',
+		key: 'year',
+		required: true,
+		displayOrder: 3,
+		type: 'number',
+		placeholder: 'Year Group'
+		},
+	]
+};
+
 const App = () => {
 
 
@@ -118,10 +134,5 @@ const styles = StyleSheet.create({
 	}
 });
 
-export default withAuthenticator(App, {
-	signUpConfig: {
-		hiddenDefaults: ['phone_number', 'email'],
-	},
-
-});
+export default withAuthenticator(App, { signUpConfig});
 // export default withAuthenticator(App);
