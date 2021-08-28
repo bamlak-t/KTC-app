@@ -1,89 +1,32 @@
-import React from 'react'
-import {SafeAreaView, StyleSheet, } from 'react-native';
-
+import React, { useEffect, useState }  from 'react'
+import { SafeAreaView } from 'react-native';
 import { Table } from '../components';
-
-import { API, graphqlOperation } from 'aws-amplify';
-import { listNotices } from '../src/graphql/queries';
-import { useEffect, useState } from 'react';
 import { TimeTableData } from '../types';
-import { createNotice } from '../src/graphql/mutations';
-import { ListNoticesQuery } from '../src/API';
+import FetchInfo from '../logic/FetchInfo';
 
-const App = () => {
+const App = ( {route}:any ) => {
 
-  const [tabledata, setTableData] = useState<TimeTableData>([]);
+  	const [tabledata, setTableData] = useState<TimeTableData>([]);
 
 	useEffect(() => {
-		timetable();
-	}, []);
-
-	const timetable = async() => {
-		try {
-      const response:any = (await API.graphql(graphqlOperation(listNotices, {
-        filter: {
-          year_group: {
-                eq: 1
-            }
-        }
-      }))) as {
-        data: ListNoticesQuery;
-      };
-      console.log(response)
-      const notiiceList = response.data.listNotices.items[0]; 
-      const narr = notiiceList.notices;
-      // console.log("narr",narr);
-      // console.log(notiiceList);
-      setTableData(narr);
-
-      // if (response.data.listNotices != undefined) {
-      //   if (response.data.listNotices.items != undefined) {
-      //     if (response.data.listNotices.items.length > 0) {
-      //       const notiiceList = response.data.listNotices.items[0]; 
-      //       if (notiiceList) {
-      //         const narr = notiiceList.notices;
-      //         console.log("narr",narr);
-      //         console.log(notiiceList);
-      //         setTableData(narr);
-      //       }
-      //     }
-      //   }
-      // }
-
-		} catch(e) {
-			console.log("error fetching data: ",e);
+		
+		const tableInfo = async () => {
+			const yearGroup = route.params.userYear;
+			if (yearGroup !== undefined) {
+				const response = await FetchInfo("notice", yearGroup);
+				// const notiiceList = response.data.listNotices.items[0]; 
+				// const narr = response.notices;
+				setTableData(response);
+			}
 		}
+		tableInfo();
+  	}, []);
 
-	}
-
-  return (
-    <SafeAreaView>
-      <Table table_data={tabledata} />
-    </SafeAreaView>
-  );
+	return (
+		<SafeAreaView>
+			<Table table_data={tabledata} />
+		</SafeAreaView>
+	);
 };
-
-const styles = StyleSheet.create({
-  scrollCointainer: {
-    height: '100%',
-    backgroundColor: '#EEEEEE'
-  },
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
 
 export default App;
