@@ -10,7 +10,7 @@ import { ButtonComponent, InputFieldComponent } from '../components';
 
 const App = ( {route}:any ) => {
 
-	console.log(route.params.userInfo)
+	// console.log(route.params.userInfo)
 	const [ user, setUser ] = useState<User>({
 		attributes: {
 			"email": "email",
@@ -23,7 +23,6 @@ const App = ( {route}:any ) => {
 	})
   	const [email, setEmail] = useState<string>("")
   	const [year, setYear] = useState<string>("0")
-	console.log(typeof(year))
 
 	const signOut = async () => {
 		try {
@@ -34,7 +33,6 @@ const App = ( {route}:any ) => {
 	}
 
 	const updateUser = async () => {
-		console.log(typeof(year))
 		const user = await Auth.currentAuthenticatedUser();
 		await Auth.updateUserAttributes(user, {
 			'email': email,

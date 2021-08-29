@@ -13,7 +13,6 @@ const App = ( {route}:any ) => {
 		const tableInfo = async () => {
 			const yearGroup = route.params.userYear;
 			if (yearGroup !== undefined) {
-				console.log("setting response")
 				const response = await FetchInfo("timetable", yearGroup);
 				// const timetableList = response.data.listNotices.items[0]; 
 				// const tarr = response.notices;
