@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     },
     input: {
         height: height * 0.065,
-        padding: 15,
+        padding: 10,
         //fontWeight: 'bold',
  
 
