@@ -1,7 +1,13 @@
 export type User = {
-  name: string,
-  email: string,
-  phone: string,
+  attributes: {
+    "email": string,
+    "email_verified": boolean,
+    "sub": string,
+    "custom:year": number
+  },
+  "id": string,
+  "username": string
+  
 };
 
 export type TableCellData = {

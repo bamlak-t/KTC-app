@@ -4,77 +4,95 @@ import {Button, SafeAreaView, ScrollView, StyleSheet, Text, View} from 'react-na
 import { Auth } from 'aws-amplify';
 import { useEffect } from 'react';
 import { useState } from 'react';
+import {User} from '../types'
 
+import { ButtonComponent, InputFieldComponent } from '../components';
 
+const App = ( {route}:any ) => {
 
-const App = () => {
+	// console.log(route.params.userInfo)
+	const [ user, setUser ] = useState<User>({
+		attributes: {
+			"email": "email",
+			"email_verified": true,
+			"sub": "sub",
+			"custom:year": 0
+		  },
+		  "id": "id",
+		  "username": "user"
+	})
+  	const [email, setEmail] = useState<string>("")
+  	const [year, setYear] = useState<string>("0")
 
-  const [user, setUser] = useState({
-    "attributes": {
-      "email": "email",
-      "email_verified": true,
-      "sub": "id"
-    },
-    "id": "id",
-    "username": "username"
-  })
+	const signOut = async () => {
+		try {
+			await Auth.signOut();
+		} catch (error) {
+			console.log('error signing out: ', error);
+		}
+	}
 
-  async function signOut() {
-    try {
-        await Auth.signOut();
-    } catch (error) {
-        console.log('error signing out: ', error);
-    }
-  }
+	const updateUser = async () => {
+		const user = await Auth.currentAuthenticatedUser();
+		await Auth.updateUserAttributes(user, {
+			'email': email,
+			'custom:year': year
+		})
+		.catch((err) => console.log("error updating user", err));
+	}
 
-  const updateUser = async () => {
-    const user = await Auth.currentAuthenticatedUser();
-    await Auth.updateUserAttributes(user, {
-      'year': '5'
-    })
-    .catch((err) => console.log("error updating user", err));
-  }
+	
+	useEffect(() => {
+		const user = route.params.userInfo;
+		setUser(user);
+		setEmail(user.attributes.email);
+		setYear(user.attributes['custom:year']);
+	}, []);
 
-  useEffect(() => {
-    Auth.currentUserInfo()
-    .then((user) => setUser(user))
-    .catch((err) => console.log("error getting details", err))
-    .finally(() => console.log(user));
-  }, []);
+	return (
+		<SafeAreaView style={styles.container}>
+			<View>
+				<Text style={styles.contentTitle}> Your Info: </Text>
+			</View>
 
-  return (
-    <SafeAreaView>
-        <Text>
-          { user.attributes.email }
-        </Text>
-        <Button title="update" onPress={updateUser}></Button>
+			<View style={styles.form}>
+				<Text style={styles.contentInfo}> Enter new details to update email or year group </Text>
 
-        <Button title="signout" onPress={signOut}></Button>
-    </SafeAreaView>
-  );
+				<InputFieldComponent placeholder={user.attributes.email} onChangeText={(text) => setEmail(text)} />
+				<InputFieldComponent placeholder={user.attributes['custom:year'].toString()} onChangeText={(text) => setYear(text)}/>
+				<ButtonComponent title="Update Details" onPress={updateUser} />
+			</View>
+			
+
+			<View>
+				<ButtonComponent title="Sign Out" onPress={signOut} />
+			</View>
+		</SafeAreaView>
+	);
 };
 
 const styles = StyleSheet.create({
-  scrollCointainer: {
-    height: '100%',
-    backgroundColor: '#EEEEEE'
-  },
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
+	container: {
+		marginTop: 50,
+		height: '80%',
+		justifyContent: 'space-between'
+	},
+	contentTitle: {
+		// height: '20%',
+		// backgroundColor: '#000',
+		fontSize: 30,
+		fontWeight: 'bold',
+		padding: 10,
+  	},
+	contentInfo: {
+		height: '10%',
+		fontSize: 15,
+		fontWeight: '900',
+		marginLeft: 15
+	},
+	form:{
+		justifyContent: 'center'
+	}
 });
 
 export default App;
